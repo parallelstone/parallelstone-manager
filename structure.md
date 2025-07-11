@@ -1,3 +1,5 @@
+# Directory
+```
 minecraft_api/
 ├── main.py              # FastAPI 앱 진입점 + 백그라운드 태스크 시작
 │
@@ -28,3 +30,13 @@ minecraft_api/
 │   └── dependencies.py  # 의존성 주입
 │
 └── requirements.txt
+```
+
+
+# RabbitMQ
+```
+Exchange: "notification_router" (type: topic)
+├── telegram_queue → binding: "*telegram*"
+├── discord_queue  → binding: "*discord*"
+└── slack_queue    → binding: "*slack*"
+```
