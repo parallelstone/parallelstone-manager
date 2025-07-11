@@ -1,7 +1,7 @@
 from typing import AsyncGenerator
 from fastapi import Depends
 from .config import settings
-from services.rcon import RCONClient
+from parallelstone_manager.services.rcon import RCONClient
 
 
 class RCONService:

@@ -1,8 +1,6 @@
 import pika
 import asyncio
 
-from core import settings
-
 class BaseConsumer:
     def __init__(self, host: str, port: int, username: str, password: str, virtual_host: str = "/"):
         self.host = host
@@ -73,6 +71,21 @@ class BaseConsumer:
         except KeyboardInterrupt:
             print("\nConsumer Stopped")
             self.channel.stop_consuming()
+    
+    def run_consumer(self, consumer_name: str, queue_name: str, handler_function):
+        """Consumer 실행 (main.py에서 사용)"""
+        if self.connect():
+            print(f"{consumer_name} consumer 시작됨")
+            self.consume_queue(queue_name, handler_function)
+        else:
+            print(f"{consumer_name} consumer 연결 실패")
+    
+    @classmethod
+    def create_and_run(cls, consumer_name: str, queue_name: str, handler_function, 
+                      host: str, port: int, username: str, password: str, virtual_host: str = "/"):
+        """Consumer 생성 및 실행 (팩토리 메서드)"""
+        consumer = cls(host, port, username, password, virtual_host)
+        consumer.run_consumer(consumer_name, queue_name, handler_function)
 
 
 

@@ -108,7 +108,7 @@ class NotificationPublisher:
 
 
 if __name__ == "__main__":
-    from core.config import settings
+    from parallelstone_manager.core.config import settings
     
     print(f"RabbitMQ Settings:")
     print(f"Host: {settings.rabbitmq_host}")

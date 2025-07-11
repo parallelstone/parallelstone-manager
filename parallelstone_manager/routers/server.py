@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from core.dependencies import get_rcon_service, RCONService
+from parallelstone_manager.core.dependencies import get_rcon_service, RCONService
 
 router = APIRouter()
 
