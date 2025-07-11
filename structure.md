@@ -36,7 +36,7 @@ minecraft_api/
 # RabbitMQ
 ```
 Exchange: "notification_router" (type: topic)
-├── telegram_queue → binding: "*telegram*"
-├── discord_queue  → binding: "*discord*"
-└── slack_queue    → binding: "*slack*"
+├── telegram_queue → binding: "#.telegram.#"
+├── discord_queue  → binding: "#.discord.#"
+└── slack_queue    → binding: "#.slack.#"
 ```
