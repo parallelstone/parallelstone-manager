@@ -4,12 +4,12 @@ import asyncio
 from core import settings
 
 class BaseConsumer:
-    def __init__(self):
-        self.host = settings.rabbitmq_host
-        self.port = settings.rabbitmq_port
-        self.user = settings.rabbitmq_username
-        self.password = settings.rabbitmq_password
-        self.virtual_host = settings.rabbitmq_virtual_host
+    def __init__(self, host: str, port: int, username: str, password: str, virtual_host: str = "/"):
+        self.host = host
+        self.port = port
+        self.username = username
+        self.password = password
+        self.virtual_host = virtual_host
         self.connection = None
         self.channel = None
 
@@ -20,7 +20,7 @@ class BaseConsumer:
                 pika.ConnectionParameters(
                     host=self.host,
                     port=self.port,
-                    credentials=pika.PlainCredentials(self.user, self.password),
+                    credentials=pika.PlainCredentials(self.username, self.password),
                     virtual_host=self.virtual_host
                 )
             )

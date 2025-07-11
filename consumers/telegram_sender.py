@@ -14,7 +14,13 @@ async def send_message_tg(msg: str):
 
 
 if __name__ == '__main__':
-    consumer = BaseConsumer()
+    consumer = BaseConsumer(
+        host=settings.rabbitmq_host,
+        port=settings.rabbitmq_port,
+        username=settings.rabbitmq_username,
+        password=settings.rabbitmq_password,
+        virtual_host=settings.rabbitmq_virtual_host
+    )
     if consumer.connect():
         print(f"{QUEUE_NAME} 큐에서 메시지 대기 중...")
         consumer.consume_queue(QUEUE_NAME, send_message_tg)

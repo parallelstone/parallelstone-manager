@@ -1,14 +1,13 @@
 import pika
-from core import settings
 
 
 class RabbitMQConnection:
-    def __init__(self):
-        self.host = settings.rabbitmq_host
-        self.port = settings.rabbitmq_port
-        self.user = settings.rabbitmq_username
-        self.password = settings.rabbitmq_password
-        self.virtual_host = settings.rabbitmq_virtual_host
+    def __init__(self, host: str, port: int, username: str, password: str, virtual_host: str = "/"):
+        self.host = host
+        self.port = port
+        self.username = username
+        self.password = password
+        self.virtual_host = virtual_host
         self.connection = None
         self.channel = None
 
@@ -18,7 +17,7 @@ class RabbitMQConnection:
                 pika.ConnectionParameters(
                     host=self.host,
                     port=self.port,
-                    credentials=pika.PlainCredentials(username=self.user, password=self.password),
+                    credentials=pika.PlainCredentials(username=self.username, password=self.password),
                     virtual_host=self.virtual_host
                 )
             )
@@ -109,6 +108,8 @@ class NotificationPublisher:
 
 
 if __name__ == "__main__":
+    from core.config import settings
+    
     print(f"RabbitMQ Settings:")
     print(f"Host: {settings.rabbitmq_host}")
     print(f"Port: {settings.rabbitmq_port}")
@@ -116,7 +117,13 @@ if __name__ == "__main__":
     print(f"Password: {settings.rabbitmq_password}")
     print(f"Virtual Host: {settings.rabbitmq_virtual_host}")
     
-    mq = RabbitMQConnection()
+    mq = RabbitMQConnection(
+        host=settings.rabbitmq_host,
+        port=settings.rabbitmq_port,
+        username=settings.rabbitmq_username,
+        password=settings.rabbitmq_password,
+        virtual_host=settings.rabbitmq_virtual_host
+    )
     mq.connect()
     qnk = [
         ("telegram_queue", "#.telegram.#"),
