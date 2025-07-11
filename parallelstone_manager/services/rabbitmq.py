@@ -104,19 +104,11 @@ class NotificationPublisher:
         )
         print("[Message published]\n"
               + f" - Exchange: {exchange_name}\n - Routing Key: {routing_key}"
-              + f" - Message: {message}")
+              + f" - Message: {message}\n")
 
 
 if __name__ == "__main__":
     from parallelstone_manager.core.config import settings
-    
-    print(f"RabbitMQ Settings:")
-    print(f"Host: {settings.rabbitmq_host}")
-    print(f"Port: {settings.rabbitmq_port}")
-    print(f"Username: {settings.rabbitmq_username}")
-    print(f"Password: {settings.rabbitmq_password}")
-    print(f"Virtual Host: {settings.rabbitmq_virtual_host}")
-    
     mq = RabbitMQConnection(
         host=settings.rabbitmq_host,
         port=settings.rabbitmq_port,
@@ -136,19 +128,19 @@ if __name__ == "__main__":
 
     pb.publish_to_exchange(
         "notification_router",
-        "test.telegram",
-        "Test Message"
+        "test.discord",
+        "[Test] discord"
     )
     
     # 다른 패턴도 테스트
     pb.publish_to_exchange(
         "notification_router",
         "telegram",
-        "Direct telegram message"
+        "[Test] telegram"
     )
     
     pb.publish_to_exchange(
         "notification_router",
         "anything.telegram.anything",
-        "Complex telegram message"
+        "[Test] anything"
     )

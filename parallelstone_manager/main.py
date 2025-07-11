@@ -19,7 +19,7 @@ def start_consumer_processes():
     # Consumer 모듈 목록
     consumer_modules = [
         "parallelstone_manager.consumers.telegram_sender",
-        # "parallelstone_manager.consumers.discord_sender",  # 구현 예정
+        "parallelstone_manager.consumers.discord_sender",
         # "parallelstone_manager.consumers.slack_sender",    # 구현 예정
     ]
     
@@ -85,7 +85,7 @@ async def lifespan(app: FastAPI):
     yield  # 여기서 앱이 실행됨
     
     # Shutdown
-    print("🔄 애플리케이션 종료 중...")
+    print("애플리케이션 종료 중...")
     
     # Consumer 프로세스들 종료
     for process in consumer_processes:

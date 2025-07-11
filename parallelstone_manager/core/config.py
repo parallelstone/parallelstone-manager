@@ -17,7 +17,11 @@ class Settings(BaseSettings):
     # Telegram Bot Settings
     telegram_bot_token: str = ""
     telegram_chat_id: str = ""
-    
+
+    # Discord Bot Settings
+    discord_bot_token: str = ""
+    discord_channel_id: str = ""
+
     # RabbitMQ Settings
     rabbitmq_host: str = "localhost"
     rabbitmq_port: int = 5672
