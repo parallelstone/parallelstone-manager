@@ -141,6 +141,12 @@ if __name__ == "__main__":
     
     pb.publish_to_exchange(
         "notification_router",
-        "anything.telegram.anything",
-        "[Test] anything"
+        "anything.slack.anything",
+        "[Test] slack"
+    )
+
+    pb.publish_to_exchange(
+        "notification_router",
+        "telegram.slack.discord",
+        "[Test] All"
     )

@@ -1,5 +1,4 @@
 from pydantic_settings import BaseSettings
-from typing import Optional
 
 
 class Settings(BaseSettings):
@@ -21,6 +20,10 @@ class Settings(BaseSettings):
     # Discord Bot Settings
     discord_bot_token: str = ""
     discord_channel_id: str = ""
+
+    # Slack Bot Settings
+    slack_bot_token: str = ""
+    slack_channel_id: str = ""
 
     # RabbitMQ Settings
     rabbitmq_host: str = "localhost"

@@ -20,7 +20,7 @@ def start_consumer_processes():
     consumer_modules = [
         "parallelstone_manager.consumers.telegram_sender",
         "parallelstone_manager.consumers.discord_sender",
-        # "parallelstone_manager.consumers.slack_sender",    # 구현 예정
+        "parallelstone_manager.consumers.slack_sender",
     ]
     
     for module in consumer_modules:

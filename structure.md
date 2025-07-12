@@ -25,9 +25,9 @@ parallelstone-manager/
 │   ├── consumers/              # 독립 프로세스 Consumer들
 │   │   ├── __init__.py
 │   │   ├── consumer.py         # BaseConsumer 클래스
-│   │   ├── telegram_sender.py  # 텔레그램 알림 처리 (독립 프로세스)
-│   │   ├── discord_sender.py   # 디스코드 알림 처리 (구현 예정)
-│   │   └── slack_sender.py     # 슬랙 알림 처리 (구현 예정)
+│   │   ├── telegram_sender.py  # 텔레그램 알림 처리
+│   │   ├── discord_sender.py   # 디스코드 알림 처리
+│   │   └── slack_sender.py     # 슬랙 알림 처리
 │   │
 │   ├── models/                 # 데이터 타입 정의 + 검증
 │   │   ├── __init__.py
