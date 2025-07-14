@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "parallelstone-manager"
+version = "1.0.0"
+description = "FastAPI Minecraft server management API with RabbitMQ notifications"
+authors = [{name = "Parallelstone Manager"}]
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "fastapi==0.115.14",
+    "uvicorn==0.35.0",
+    "pydantic==2.11.7",
+    "pydantic-settings==2.10.1",
+    "python-dotenv==1.1.1",
+    "python-telegram-bot==22.2",
+    "pika==1.3.2",
+    "discord-py==2.5.2",
+    "aiohttp==3.10.11",
+    "slack-sdk==3.36.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "httpx>=0.24.0",
+    "pytest-mock>=3.10.0",
+    "pytest-cov>=4.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["parallelstone_manager*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+asyncio_mode = "auto"
+
+[tool.coverage.run]
+source = ["parallelstone_manager"]
+omit = ["*/tests/*", "*/test_*.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+]
