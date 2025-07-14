@@ -1,6 +1,6 @@
 import asyncio
 import struct
-from typing import Optional
+
 
 class RCONClient:
     def __init__(self, host: str, port: int, password: str):
