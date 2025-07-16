@@ -8,7 +8,7 @@ version = "1.0.0"
 description = "FastAPI Minecraft server management API with RabbitMQ notifications"
 authors = [{name = "Parallelstone Manager"}]
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.12"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -35,11 +35,11 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=7.0.0",
-    "pytest-asyncio>=0.21.0",
-    "httpx>=0.24.0",
-    "pytest-mock>=3.10.0",
-    "pytest-cov>=4.0.0",
+    "pytest==8.4.1",
+    "pytest-asyncio>=1.0.0",
+    "httpx>=0.28.1",
+    "pytest-mock>=3.14.1",
+    "pytest-cov>=6.2.1",
 ]
 
 [tool.setuptools.packages.find]
