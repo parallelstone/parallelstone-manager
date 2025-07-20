@@ -1,5 +1,4 @@
 import sys
-import discord
 import aiohttp
 
 from parallelstone_manager.consumers.consumer import BaseConsumer
