@@ -25,16 +25,6 @@ async def get_player_list(rcon: RCONService = Depends(get_rcon_service)):
 
     return {"status": "running", "players": lst}
 
-@router.get("/count")
-async def get_players_count():
-    try:
-        result = await rcon.execute_command("list")
-        num_of_players = result.split()[2]
-    except Exception as e:
-        return {"status": "error", "error": str(e)}
-
-    return {"status": "running", "player_count": num_of_players}
-
 @router.post("/kick")
 async def kick_player(player_name: str, rcon: RCONService = Depends(get_rcon_service)):
     try:
