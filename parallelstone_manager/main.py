@@ -86,7 +86,16 @@ async def lifespan(app: FastAPI):
     
     # Shutdown
     print("애플리케이션 종료 중...")
-    
+
+    # RabbitMQ 연결 종료
+    if rabbitmq_connection:
+        try:
+            rabbitmq_connection.disconnect()
+            print("RabbitMQ 연결 종료")
+        except Exception as e:
+            print("RabbitMQ 연결 종료됨", e)
+
+
     # Consumer 프로세스들 종료
     for process in consumer_processes:
         try:
@@ -98,11 +107,7 @@ async def lifespan(app: FastAPI):
             print(f"Consumer 프로세스 강제 종료됨 (PID: {process.pid})")
         except Exception as e:
             print(f"Consumer 프로세스 종료 실패: {e}")
-    
-    # RabbitMQ 연결 종료
-    if rabbitmq_connection:
-        rabbitmq_connection.disconnect()
-        print("RabbitMQ 연결 종료")
+
 
 app = FastAPI(title="Minecraft API", version="1.0.0", lifespan=lifespan)
 
