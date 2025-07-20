@@ -25,12 +25,38 @@ async def get_player_list(rcon: RCONService = Depends(get_rcon_service)):
 
     return {"status": "running", "players": lst}
 
+
 @router.post("/kick")
 async def kick_player(player_name: str, rcon: RCONService = Depends(get_rcon_service)):
     try:
         result = await rcon.execute_command(f"kick {player_name}")
+        if "No player was found" in result:
+            return {"status": "error", "error": result}
     except Exception as e:
         return {"status": "error", "error": str(e)}
 
-    return {"status": "running", "msg": result}
+    return {"status": "success", "msg": result}
+
+@router.post("/ban")
+async def ban_player(player_name: str, rcon: RCONService = Depends(get_rcon_service)):
+    try:
+        result = await rcon.execute_command(f"ban {player_name}")
+        if "That player does not exist" in result:
+            return {"status": "error", "error": result}
+    except Exception as e:
+        return {"status": "error", "error": str(e)}
+
+    return {"status": "success", "msg": result}
+
+
+@router.post("/pardon")
+async def pardon_player(player_name: str, rcon: RCONService = Depends(get_rcon_service)):
+    try:
+        result = await rcon.execute_command(f"pardon {player_name}")
+        if "That player does not exist" in result:
+            return {"status": "error", "error": result}
+    except Exception as e:
+        return {"status": "error", "error": str(e)}
+
+    return {"status": "success", "msg": result}
 
