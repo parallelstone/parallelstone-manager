@@ -38,14 +38,21 @@ class RCONService:
         try:
             result = await client.send_command(command)
             return result
-        except:
-            await self.connect()
-            result = await client.send_command(command)
-            return result
+        except (ConnectionError, OSError, Exception) as e:
+            print(f"Command execution failed, attempting reconnect: {e}")
+            try:
+                await self.connect()
+                result = await client.send_command(command)
+                return result
+            except Exception as retry_e:
+                print(f"Retry after reconnect failed: {retry_e}")
+                raise
 
     
     async def test_connection(self) -> bool:
         """연결 테스트"""
+        if self._client is None:
+            return False
         return await self._client.is_connected()
 
 

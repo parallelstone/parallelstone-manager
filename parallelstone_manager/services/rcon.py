@@ -21,7 +21,7 @@ class RCONClient:
         # 소켓이 닫혔는지 확인
         try:
             return not self.writer.is_closing()
-        except:
+        except (AttributeError, OSError, ConnectionError):
             return False
 
     async def connect(self):
