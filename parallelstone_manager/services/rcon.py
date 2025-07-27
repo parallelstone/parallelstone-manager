@@ -12,7 +12,18 @@ class RCONClient:
         self.writer = None
 
         self.request_id = 0
-    
+
+    async def is_connected(self) -> bool:
+        """연결 상태 확인 (소켓 레벨)"""
+        if self.writer is None:
+            return False
+
+        # 소켓이 닫혔는지 확인
+        try:
+            return not self.writer.is_closing()
+        except:
+            return False
+
     async def connect(self):
         """서버 연결 및 인증"""
         self.reader, self.writer = await asyncio.open_connection(self.host, self.port)
@@ -84,21 +95,3 @@ class RCONClient:
         self.request_id += 1
         return self.request_id
 
-# 간단한 서비스 함수들
-async def execute_command(host: str, port: int, password: str, command: str) -> str:
-    """명령어 실행"""
-    client = RCONClient(host, port, password)
-    try:
-        await client.connect()
-        result = await client.send_command(command)
-        return result
-    finally:
-        await client.close()
-
-async def test_connection(host: str, port: int, password: str) -> bool:
-    """연결 테스트"""
-    try:
-        result = await execute_command(host, port, password, "list")
-        return True
-    except:
-        return False
