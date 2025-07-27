@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 
 from parallelstone_manager.routers import server, players
 from parallelstone_manager.core.config import settings
+from parallelstone_manager.core.dependencies import rcon_service
 from parallelstone_manager.services.rabbitmq import RabbitMQConnection, NotificationPublisher
 
 # 전역 변수로 RabbitMQ 연결 관리
@@ -81,11 +82,23 @@ async def lifespan(app: FastAPI):
         
     except Exception as e:
         print(f"RabbitMQ 초기화 실패: {e}")
-    
+
+    try:
+        await rcon_service.connect()
+        print(f"RCON Connection Successful")
+    except Exception as e:
+        print(f"RCON Connection Failed: {e}")
     yield  # 여기서 앱이 실행됨
-    
+
     # Shutdown
     print("애플리케이션 종료 중...")
+
+    # RCON 연결 종료
+    try:
+        await rcon_service.disconnect()
+        print(f"RCON Connection Closed")
+    except Exception as e:
+        print(f"RCON Connection Closed: {e}")
 
     # RabbitMQ 연결 종료
     if rabbitmq_connection:

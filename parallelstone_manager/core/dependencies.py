@@ -16,24 +16,45 @@ class RCONService:
         if self._client is None:
             self._client = RCONClient(self.host, self.port, self.password)
         return self._client
+
+
+    async def connect(self):
+        client = await self.get_client()
+        await client.connect()
+        return client
+
+    async def disconnect(self):
+        client = await self.get_client()
+        await client.close()
+        self._client = None
     
     async def execute_command(self, command: str) -> str:
         """명령어 실행"""
         client = await self.get_client()
+        if not await client.is_connected():
+            print("RCON connection lost. Reconnecting...")
+            await self.connect()
+
         try:
-            await client.connect()
             result = await client.send_command(command)
             return result
-        finally:
-            await client.close()
+        except (ConnectionError, OSError, Exception) as e:
+            print(f"Command execution failed, attempting reconnect: {e}")
+            try:
+                await self.connect()
+                result = await client.send_command(command)
+                return result
+            except Exception as retry_e:
+                print(f"Retry after reconnect failed: {retry_e}")
+                raise
+
     
     async def test_connection(self) -> bool:
         """연결 테스트"""
-        try:
-            result = await self.execute_command("list")
-            return True
-        except:
+        if self._client is None:
             return False
+        return await self._client.is_connected()
+
 
 
 # 전역 RCON 서비스 인스턴스
