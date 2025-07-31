@@ -1,7 +1,9 @@
-import telegram
 import asyncio
 import sys
-from parallelstone_manager.consumers.consumer import BaseConsumer
+
+import telegram
+
+from parallelstone_manager.consumers.consumer import run_consumer
 from parallelstone_manager.core.config import settings
 
 
@@ -19,26 +21,24 @@ async def send_message_tg(msg: str):
         raise
 
 
-def main():
-    """텔레그램 Consumer 메인 함수"""
-    print(f"텔레그램 Consumer 시작 중...")
-    
-    consumer = BaseConsumer(
+async def main():
+    await run_consumer(
+        consumer_name="Telegram",
+        queue_name=QUEUE_NAME,
+        handler_function=send_message_tg,
         host=settings.rabbitmq_host,
         port=settings.rabbitmq_port,
         username=settings.rabbitmq_username,
         password=settings.rabbitmq_password,
         virtual_host=settings.rabbitmq_virtual_host
     )
-    
-    consumer.run_consumer("Telegram", QUEUE_NAME, send_message_tg)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     try:
-        main()
+        asyncio.run(main())
     except KeyboardInterrupt:
-        print("\n텔레그램 Consumer 종료")
+        print("Telegram consumer stopped")
     except Exception as e:
-        print(f"텔레그램 Consumer 오류: {e}")
+        print(f"Telegram consumer error: {e}")
         sys.exit(1)

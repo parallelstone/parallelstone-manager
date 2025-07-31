@@ -1,7 +1,8 @@
+import asyncio
 import sys
 import aiohttp
 
-from parallelstone_manager.consumers.consumer import BaseConsumer
+from parallelstone_manager.consumers.consumer import run_consumer
 from parallelstone_manager.core.config import settings
 
 
@@ -37,22 +38,23 @@ async def send_message_discord(message: str):
         return False
 
 
-def main():
-    consumer = BaseConsumer(
-        settings.rabbitmq_host,
-        settings.rabbitmq_port,
-        settings.rabbitmq_username,
-        settings.rabbitmq_password,
+async def main():
+    await run_consumer(
+        consumer_name="Discord",
+        queue_name=QUEUE_NAME,
+        handler_function=send_message_discord,
+        host=settings.rabbitmq_host,
+        port=settings.rabbitmq_port,
+        username=settings.rabbitmq_username,
+        password=settings.rabbitmq_password,
         virtual_host=settings.rabbitmq_virtual_host
     )
 
-    consumer.run_consumer("Discord", QUEUE_NAME, send_message_discord)
-
 if __name__ == '__main__':
     try:
-        main()
+        asyncio.run(main())
     except KeyboardInterrupt:
-        print("\nDiscord Consumer 종료")
+        print("\nDiscord consumer stopped")
     except Exception as e:
-        print(f"Discord Consumer 오류: {e}")
+        print(f"Discord consumer error: {e}")
         sys.exit(1)
