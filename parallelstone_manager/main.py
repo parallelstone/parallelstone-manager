@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 import subprocess
 import os
-from typing import List
 from contextlib import asynccontextmanager
 
 from parallelstone_manager.routers import server, players
