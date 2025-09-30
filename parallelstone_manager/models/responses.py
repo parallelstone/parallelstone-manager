@@ -1,9 +1,8 @@
 from pydantic import BaseModel
-from typing import Optional, Any
-from datetime import datetime
+from typing import Optional
 
-class CommandResponse(BaseModel):
-    status: str
-    message: str
-    data: Optional[Any] = None  
-    timestamp: datetime = datetime.now()
+class ApiResponse(BaseModel):
+    """통일된 API 응답 모델"""
+    success: bool
+    message: str = ""
+    data: Optional[dict] = None
