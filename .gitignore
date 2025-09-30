@@ -23,3 +23,5 @@ build/
 
 # Others
 repomix-output.xml
+.mcp.json
+/.serena
