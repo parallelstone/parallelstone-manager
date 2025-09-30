@@ -125,6 +125,18 @@ The API will be available at `http://localhost:8000`
 
 ### API Endpoints
 
+All endpoints return a unified response format:
+
+```json
+{
+  "success": true,
+  "message": "Operation completed successfully",
+  "data": {
+    "key": "value"
+  }
+}
+```
+
 #### Server Control
 - `POST /server/start` - Start the server (placeholder)
 - `POST /server/stop` - Stop the server (placeholder)
@@ -132,9 +144,37 @@ The API will be available at `http://localhost:8000`
 - `GET /server/status` - Get server status
 - `GET /server/test-connection` - Test RCON connection
 - `GET /server/commands?cmd=<command>` - Execute RCON command
+- `POST /server/announce?msg=<message>` - Broadcast message to all players
+- `POST /server/gamerule?rule=<rule>&value=<value>` - Change game rule
+
+**Example Response:**
+```json
+{
+  "success": true,
+  "message": "Command executed successfully",
+  "data": {
+    "result": "There are 3 of a max of 20 players online"
+  }
+}
+```
 
 #### Player Management
-- See `/docs` for player endpoints
+- `GET /players/` - Get player count
+- `GET /players/player_list` - Get list of online players
+- `POST /players/kick?player_name=<name>` - Kick a player
+- `POST /players/ban?player_name=<name>` - Ban a player
+- `POST /players/pardon?player_name=<name>` - Pardon a banned player
+
+**Example Response:**
+```json
+{
+  "success": true,
+  "message": "Player kicked successfully",
+  "data": {
+    "result": "Kicked player123"
+  }
+}
+```
 
 ### Run Individual Consumers (for debugging)
 
